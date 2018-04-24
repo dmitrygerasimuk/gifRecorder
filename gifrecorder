@@ -14,7 +14,7 @@ wflag=
 
 verbose="-w"
 
-while getopts :s:c:wv name
+while getopts :s:c:bwv name
 do
 	case $name in
 	s)	s=1
@@ -23,12 +23,13 @@ do
 	c)	c=1
 		cropDim="$OPTARG"
 		cflag="set";;
+    b)  bflag=1;;
 	w)	wflag=1;;
-	v)	verbose="-V"
+    v)	verbose="-V"
 		vflag="set";;
 	:)	echo "Error: please specify the number of seconds."
 		exit 2;;
-	?)	printf "Usage: [-s <seconds>] [-c x1,y1-x2,y2] [-w] [-v]\n"
+	?)	printf "Usage: [-s <seconds>] [-c x1,y1-x2,y2] [-w] [-b] [-v]\n"
 		exit 2;;
 	esac
 done
@@ -38,6 +39,12 @@ if [ -z "$sflag" ]; then
     sval=5
 fi
 seconds=$(echo "$sval"*5|bc)
+
+for (( a=5; a>-1; a--))
+do
+    sleep 1s;
+    echo $a;
+done
 cd /tmp
 if [ -n "$vflag" ]; then
 	echo "Now recording..."
@@ -71,6 +78,13 @@ if [ -n "$wflag" ]; then
 		crop="--crop ""$cropDim"
 	fi
 fi
+
+if [ -n "$bflag" ]; then
+        cropDim=$(osascript -e "tell application \"Safari\" to get the bounds of the first window" | sed "s/,/-/2" | sed "s/ //g")
+        crop="--crop ""$cropDim"
+fi
+
+
 gifsicle $verbose --delay 25 --loopcount $crop $framelist > "$filename"
 gifsicle $verbose -b --optimize=2 "$filename"
 mv "$filename" ~/Desktop/
