@@ -22,3 +22,8 @@ The default recording duration is 5 seconds. You can change this by running the 
 By default the script will record your entire screen. You can also specify the dimensions of the rectangle you want to be recorded with the option `-c x1,y1-x2,y2`. The top-left corner of this rectangle is at `(x1,y1)` and the lower-right corner is at `(x2,y2)`. For example: `-c 0,0-1439,21` will capture just your menu bar. You can tell the script to only record the current terminal window with `-w`.
 
 You can also enable the verbose mode with the option `-v`.
+
+Addon
+-----
+5 seconds delay before start
+'-b' switch to capture Safari window
