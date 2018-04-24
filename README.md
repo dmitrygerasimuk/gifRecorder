@@ -26,4 +26,5 @@ You can also enable the verbose mode with the option `-v`.
 Addon
 -----
 5 seconds delay before start
+
 '-b' switch to capture Safari window
